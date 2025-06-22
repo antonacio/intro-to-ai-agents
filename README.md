@@ -4,7 +4,7 @@ This repository provides a tutorial on building AI agents using Ollama to run LL
 
 ## Installation
 
-### Running LLMs locally with Ollama
+### Run LLMs locally with Ollama
 
 1. Download and install the Ollama desktop app from https://ollama.com/download
 2. Run the command `ollama` in your terminal to verify the installation was successful
@@ -23,7 +23,7 @@ This repository provides a tutorial on building AI agents using Ollama to run LL
     - conda: `conda create -n legal-hack python=3.12` to create the environment and `conda activate legal-hack` to activate it
 2. Run `pip install -r requirements.txt` to install the project dependencies
 
-## References
+## Additional References
 
 To learn more about:
 - AI Agents: https://www.anthropic.com/engineering/building-effective-agents
