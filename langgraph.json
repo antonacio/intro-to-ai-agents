@@ -1,7 +1,8 @@
 {
     "dependencies": ["./"],
     "graphs": {
-      "react_math_agent": "./src/hackathon/agents/react/langgraph_studio.py:react_math_agent_compiled_graph"
+        "dummy_agent": "./src/hackathon/agents/dummy/langgraph_studio.py:dummy_agent_compiled_graph",
+        "react_math_agent": "./src/hackathon/agents/react/langgraph_studio.py:react_math_agent_compiled_graph"
     },
     "env": ".env",
     "python_version": "3.12"
