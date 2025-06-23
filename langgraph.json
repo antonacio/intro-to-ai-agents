@@ -1,7 +1,7 @@
 {
-    "dependencies": ["./src/"],
+    "dependencies": ["./"],
     "graphs": {
-      "chat": "./chat/graph.py:graph"
+      "react_math_agent": "./src/hackathon/agents/react/langgraph_studio.py:react_math_agent_compiled_graph"
     },
     "env": ".env",
     "python_version": "3.12"
