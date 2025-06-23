@@ -11,7 +11,8 @@ Follow these steps to set up your Python environment:
     - UV: `uv venv --python 3.12` to create the environment and `source .venv/bin/activate` to activate it
     - conda: `conda create -n legal-hack python=3.12` to create the environment and `conda activate legal-hack` to activate it
 2. Run `pip install -r requirements.txt` to install the project dependencies
-3. Run `pre-commit install` to install pre-commit hooks
+3. Run `pip install -e .` to install this repository's source code in editable mode
+4. Run `pre-commit install` to install pre-commit hooks
 
 ### Ollama
 
@@ -22,9 +23,8 @@ Follow these steps to set up your Python environment:
     - The model should support tool/function calling to enable agentic use cases
     - As a general rule, you should have at least 8 GB of RAM available to run 8B models, 16 GB to run 16B models, and so on...
     - We recommend using the [Qwen3 family of models](https://ollama.com/library/qwen3): `qwen3:8b` if you have 8 GB of RAM, `qwen3:14b` if you have 16 GB, or `qwen3:32b` if you have 32 GB. We will use `qwen3:14b` in this repository
-4. Run the command `ollama run <your_model>` in your terminal to download the model
-5. When the download is complete, a chat interface will start with the selected model. Type `/bye` to exit the chat interface
-6. Start the Ollama App in the background OR run `ollama serve` in your terminal to expose an HTTP API on localhost so that you can send requests to the model via Python code
+4. Run the command `ollama run <your_model>` in your terminal to download the model. When the download is complete, a chat interface will start with the selected model. Type `/bye` to exit the chat interface
+5. Start the Ollama App in the background OR run `ollama serve` in your terminal to expose an HTTP API on localhost so that you can send requests to the model via Python code
 
 ### LangGraph Studio
 
@@ -34,7 +34,7 @@ Follow these steps to set up your Python environment:
 3. Run `langgraph dev` in your terminal to start the LangGraph API server locally
 4. Access the LangGraph Studio Web UI at https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024
 
-## Additional References
+## Additional Resources
 
 See the following references to learn more about:
 - AI Agents: https://www.anthropic.com/engineering/building-effective-agents
