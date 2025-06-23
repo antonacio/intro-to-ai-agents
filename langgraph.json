@@ -1,0 +1,8 @@
+{
+    "dependencies": ["./src/"],
+    "graphs": {
+      "chat": "./chat/graph.py:graph"
+    },
+    "env": ".env",
+    "python_version": "3.12"
+}

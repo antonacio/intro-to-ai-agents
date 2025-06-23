@@ -1,4 +1,4 @@
-# Intro to AI Agents
+# Let's Build AI Agents!
 
 This repository provides a tutorial on building AI agents using Ollama to run LLMs locally and LangGraph to orchestrate agentic systems. It was created for participants of the [LegalTechTalk Hackathon](https://www.legaltech-talk.com/legaltechtalk-hackathon/) taking place on June 26-27, 2025.
 
@@ -11,6 +11,7 @@ Follow these steps to set up your Python environment:
     - UV: `uv venv --python 3.12` to create the environment and `source .venv/bin/activate` to activate it
     - conda: `conda create -n legal-hack python=3.12` to create the environment and `conda activate legal-hack` to activate it
 2. Run `pip install -r requirements.txt` to install the project dependencies
+3. Run `pre-commit install` to install pre-commit hooks
 
 ### Ollama
 
@@ -29,11 +30,13 @@ Follow these steps to set up your Python environment:
 
 [LangGraph](https://langchain-ai.github.io/langgraph/) is an open-source framework for building agents and multi-agent applications. [LangGraph Studio](https://langchain-ai.github.io/langgraph/concepts/langgraph_studio/) is a web UI that enables visualization, interaction, and debugging of agentic systems built with LangGraph. Follow these steps to set up LangGraph Studio:
 1. [Sign up to LangSmith](https://smith.langchain.com/settings?__hstc=5909356.74979cac47c29358b9e8426e0283c1f3.1750601004239.1750619531728.1750635426214.3&__hssc=5909356.4.1750635426214&__hsfp=268443588&_gl=1*1l57sy0*_gcl_au*Nzc0NTQ0NTcyLjE3NTA2MDEwMDI.*_ga*OTQ4MzIzOTcyLjE3NDA2MTgxMTQ.*_ga_47WX3HKKY2*czE3NTA2MzU0MjQkbzYkZzEkdDE3NTA2MzY1NjYkajYwJGwwJGgw) and create an API key (Personal Access Token)
-2. Rename the [`.env.example`](./.env.example) file to `.env` and paste your LangSmith API key in
+2. Rename the [`.env.example`](./.env.example) file to `.env` and paste the API key you created in `LANGSMITH_API_KEY`
+3. Run `langgraph dev` in your terminal to start the LangGraph API server locally
+4. Access the LangGraph Studio Web UI at https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024
 
 ## Additional References
 
-To learn more about:
+See the following references to learn more about:
 - AI Agents: https://www.anthropic.com/engineering/building-effective-agents
 - LangGraph: https://academy.langchain.com/courses/intro-to-langgraph
 - Ollama: https://github.com/ollama/ollama/tree/main/docs

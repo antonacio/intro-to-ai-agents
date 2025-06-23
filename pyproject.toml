@@ -13,5 +13,6 @@ dependencies = [
     "langgraph-cli[inmem]>=0.3.3",
     "ollama>=0.5.1",
     "pip>=25.1.1",
+    "pre-commit>=4.2.0",
 ]
 
