@@ -22,7 +22,7 @@ Follow these steps to set up your Python environment:
 3. Select a model from the [Ollama library](https://ollama.com/library). Keep in mind that:
     - The model should support tool/function calling to enable agentic use cases
     - As a general rule, you should have at least 8 GB of RAM available to run 8B models, 16 GB to run 16B models, and so on...
-    - We recommend using the [Qwen3 family of models](https://ollama.com/library/qwen3): `qwen3:8b` if you have 8 GB of RAM, `qwen3:14b` if you have 16 GB, or `qwen3:32b` if you have 32 GB. We will use `qwen3:14b` in this repository
+    - We recommend using the [Qwen3 family of models](https://ollama.com/library/qwen3): `qwen3:8b` if you have 8 GB of RAM, `qwen3:14b` if you have 16 GB, or `qwen3:32b` if you have 32 GB. We will use `qwen3:14b` in this tutorial
 4. Run the command `ollama run <your_model>` in your terminal to download the model. When the download is complete, a chat interface will start with the selected model. Type `/bye` to exit the chat interface
 5. Start the Ollama App in the background OR run `ollama serve` in your terminal to expose an HTTP API on localhost so that you can send requests to the model via Python code
 
@@ -36,7 +36,7 @@ Follow these steps to set up your Python environment:
 
 ## Additional Resources
 
-See the following references to learn more about:
+See the following resources to learn more about:
 - AI Agents: https://www.anthropic.com/engineering/building-effective-agents
 - LangGraph: https://academy.langchain.com/courses/intro-to-langgraph
 - Ollama: https://github.com/ollama/ollama/tree/main/docs
