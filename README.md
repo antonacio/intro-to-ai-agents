@@ -52,6 +52,6 @@ Once you have completed the notebooks, feel free to explore the source code in `
 ### Explore Further
 
 See the following resources to learn more about:
-- AI Agents: https://www.anthropic.com/engineering/building-effective-agents
-- LangGraph: https://academy.langchain.com/courses/intro-to-langgraph
-- Ollama: https://github.com/ollama/ollama/tree/main/docs
+- AI agents: https://www.anthropic.com/engineering/building-effective-agents
+- LangGraph (free) course: https://academy.langchain.com/courses/intro-to-langgraph
+- LangGraph advanced examples: https://langchain-ai.github.io/langgraph/tutorials/overview
