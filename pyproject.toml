@@ -5,15 +5,18 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "intro-to-ai-agents"
 version = "0.1.0"
-description = "Tutorial on how to build AI agents using LangGraph to orchestrate agentic systems and Ollama to run LLMs locally. Created for the LegalTechTalk Hackathon taking place on June 26-27, 2025."
+description = "Tutorial on how to build and orchestrate agentic systems using LangGraph. Created for the LegalTechTalk Hackathon taking place on June 26-27, 2025."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "dotenv>=0.9.9",
     "ipykernel>=6.29.5",
     "langchain>=0.3.26",
     "langchain-ollama>=0.3.3",
+    "langchain-openai>=0.3.25",
     "langgraph>=0.4.8",
     "langgraph-cli[inmem]>=0.3.3",
+    "numpy>=2.3.1",
     "ollama>=0.5.1",
     "pip>=25.1.1",
     "pre-commit>=4.2.0",
