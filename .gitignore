@@ -211,3 +211,13 @@ __marimo__/
 
 # LangGraph Studio
 .langgraph_api/
+
+# data folder (ignore all files, except for the example PDF)
+data/*
+!data/Meta Terms of Service.pdf
+
+# vector store
+vector_store/*
+
+# Keep .gitkeep files
+!.gitkeep
