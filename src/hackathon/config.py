@@ -1,5 +1,6 @@
 import os
 from enum import Enum
+from pathlib import Path
 
 
 class ModelProviders(Enum):
@@ -45,3 +46,13 @@ else:
         f'Selected model provider is not supported: "{MODEL_PROVIDER}"\n'
         f"Supported model providers are: {[sp.value for sp in ModelProviders]}"
     )
+
+# Get the directory where this config file is located
+_config_dir = Path(__file__).parent
+
+# data directory (relative to project root)
+data_directory = str((_config_dir / "../../data/").resolve())
+
+# vector store
+vector_store_collection_name = "rag_collection"
+vector_store_directory = str((_config_dir / "../../vector_store/").resolve())

@@ -1,6 +1,7 @@
 import os
 from hackathon.agents.react.agent import ReActAgent
 from hackathon.tools.math import add, multiply, divide
+from hackathon.tools.rag import retrieve
 from hackathon.config import llm, ModelProviders
 
 if os.getenv("MODEL_PROVIDER") == ModelProviders.OPENAI:
@@ -10,6 +11,7 @@ else:
     # Ollama model in LangChain does not support the parallel tool calling parameter
     bind_math_tools_kwargs = {}
 
+# Math agent
 react_math_agent = ReActAgent(
     llm=llm,
     tools=[add, multiply, divide],
@@ -17,3 +19,11 @@ react_math_agent = ReActAgent(
     bind_tools_kwargs=bind_math_tools_kwargs,
 )
 react_math_agent_compiled_graph = react_math_agent.build_graph().compile()
+
+# RAG agent
+react_rag_agent = ReActAgent(
+    llm=llm,
+    tools=[retrieve],
+    system_prompt="You are a helpful assistant for question-answering tasks.",
+)
+react_rag_agent_compiled_graph = react_rag_agent.build_graph().compile()
