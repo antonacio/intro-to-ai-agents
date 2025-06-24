@@ -19,7 +19,7 @@ Then, follow these steps to set up your Python environment:
 ### LangGraph Studio
 
 [LangGraph](https://langchain-ai.github.io/langgraph/) is an open-source framework for building agents and multi-agent applications. [LangGraph Studio](https://langchain-ai.github.io/langgraph/concepts/langgraph_studio/) is a web UI that enables visualization, interaction, and debugging of agentic systems built with LangGraph. Follow these steps to set up LangGraph Studio:
-1. [Sign up for LangSmith](https://smith.langchain.com/settings?__hstc=5909356.74979cac47c29358b9e8426e0283c1f3.1750601004239.1750619531728.1750635426214.3&__hssc=5909356.4.1750635426214&__hsfp=268443588&_gl=1*1l57sy0*_gcl_au*Nzc0NTQ0NTcyLjE3NTA2MDEwMDI.*_ga*OTQ4MzIzOTcyLjE3NDA2MTgxMTQ.*_ga_47WX3HKKY2*czE3NTA2MzU0MjQkbzYkZzEkdDE3NTA2MzY1NjYkajYwJGwwJGgw), create an API key (Personal Access Token), and add it to your `.env` file in the `LANGSMITH_API_KEY` field
+1. [Sign up for LangSmith](https://smith.langchain.com/settings), create an API key (Personal Access Token), and add it to your `.env` file in the `LANGSMITH_API_KEY` field
 2. Run `langgraph dev` in your terminal to start the LangGraph API server locally
 3. Access the LangGraph Studio Web UI at https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024
 
