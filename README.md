@@ -26,8 +26,8 @@ Then, follow these steps to set up your Python environment:
 ## 2. Let's Build AI Agents!
 
 To start building AI Agents, work through the content of these notebooks:
-- [`1_simple-graph.ipynb`](notebooks/1_simple-graph.ipynb) introduces basic LangGraph concepts like State, Nodes, Edges, and Graphs
-- [`2_react_agent.ipynb`](notebooks/2_react_agent.ipynb) builds a simple ReAct agent that calls math tools to perform arithmetic operations
+- [`1_graph-basics.ipynb`](notebooks/1_graph-basics.ipynb) introduces basic LangGraph concepts like State, Nodes, Edges, and Graphs
+- [`2_math-agent.ipynb`](notebooks/2_math-agent.ipynb) builds a simple ReAct agent that calls math tools to perform arithmetic operations
 
 Once you have completed the notebooks, feel free to explore the source code in `src/hackathon/`, interact with the agents in LangGraph Studio, and start building your own agentic systems. I'm excited to see what you build!
 
