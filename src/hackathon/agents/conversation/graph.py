@@ -228,9 +228,17 @@ class MultiAgentLegalGraph:
         Returns:
             dict: Final state after workflow completion
         """
-        # Prepare initial state
+        # Prepare initial state - start with Iris's introduction
+        from langchain_core.messages import AIMessage
+        
+        # If no messages provided, start with Iris's introduction
+        initial_messages = input_data.get("messages", [])
+        if not initial_messages:
+            iris_intro = AIMessage(content="Hello! I'm Iris, the AI front-of-house for our law firm. My role is to understand your legal needs and get you in front of the right person as quickly as possible. Could you please tell me about the legal challenges you're facing?")
+            initial_messages = [iris_intro]
+        
         initial_state = {
-            "messages": input_data.get("messages", []),
+            "messages": initial_messages,
             "thread_id": thread_id,
             "conversation_complete": False,
             "legal_area": None,
@@ -259,9 +267,17 @@ class MultiAgentLegalGraph:
         Yields:
             dict: Intermediate states during workflow execution
         """
-        # Prepare initial state
+        # Prepare initial state - start with Iris's introduction
+        from langchain_core.messages import AIMessage
+        
+        # If no messages provided, start with Iris's introduction
+        initial_messages = input_data.get("messages", [])
+        if not initial_messages:
+            iris_intro = AIMessage(content="Hello! I'm Iris, the AI front-of-house for our law firm. My role is to understand your legal needs and get you in front of the right person as quickly as possible. Could you please tell me about the legal challenges you're facing?")
+            initial_messages = [iris_intro]
+        
         initial_state = {
-            "messages": input_data.get("messages", []),
+            "messages": initial_messages,
             "thread_id": thread_id,
             "conversation_complete": False,
             "legal_area": None,

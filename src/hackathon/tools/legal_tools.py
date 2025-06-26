@@ -198,7 +198,7 @@ def end_conversation() -> dict:
     return {
         "status": "conversation_ended",
         "handoff_to": "deck_drafting_agent",
-        "message": "Thank you for taking the time to share your legal requirements with me today. I have gathered all the essential information about your situation and will now forward this to our legal team. They will prepare a comprehensive pitch deck that outlines our relevant expertise and proposed approach for your matter. You can expect to receive our detailed proposal within 24-48 hours. We appreciate your time and look forward to the opportunity to assist you with your legal challenges."
+        "message": "Perfect! I have all the information I need. I'm now passing this on to the relevant parties who specialize in your legal area. They will be getting back to you with a tailored pitch deck that showcases our expertise and proposed approach for your specific needs. You can expect to hear from them within 24-48 hours. Thank you for your time!"
     }
 
 
