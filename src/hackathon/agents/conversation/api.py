@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_openai import ChatOpenAI
 
-from hackathon.agents.conversation import MultiAgentLegalGraph
+from hackathon.agents.conversation.api_graph import APIMultiAgentGraph
 
 
 # Request/Response models
@@ -91,7 +91,7 @@ async def startup_event():
     
     # Initialize LLM and workflow
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3)
-    workflow = MultiAgentLegalGraph(llm=llm, use_memory=True)
+    workflow = APIMultiAgentGraph(llm=llm, use_memory=True)
     
     print("✅ Legal Conversation API initialized")
 
@@ -113,11 +113,11 @@ async def start_conversation(request: ConversationStartRequest):
     thread_id = request.thread_id or f"conv_{uuid.uuid4()}"
     
     try:
-        # Run workflow with empty input to get Iris's introduction
-        result = workflow.run({"messages": []}, thread_id=thread_id)
+        # Start conversation with Iris's introduction
+        initial_state = workflow.start_conversation(thread_id=thread_id)
         
         # Extract Iris's introduction
-        messages = result.get("messages", [])
+        messages = initial_state.get("messages", [])
         if messages and hasattr(messages[-1], 'content'):
             iris_message = messages[-1].content
         else:
@@ -127,7 +127,7 @@ async def start_conversation(request: ConversationStartRequest):
         conversation_states[thread_id] = {
             "status": "active",
             "message_count": len(messages),
-            "last_state": result
+            "last_state": initial_state
         }
         
         return ConversationStartResponse(
@@ -158,11 +158,15 @@ async def send_message(request: ConversationMessageRequest):
         raise HTTPException(status_code=400, detail="Conversation has already ended")
     
     try:
-        # Prepare input with user message
-        input_data = {"messages": [HumanMessage(content=request.message)]}
+        # Get existing state
+        existing_state = conversation_states[thread_id].get("last_state", {})
         
-        # Run workflow
-        result = workflow.run(input_data, thread_id=thread_id)
+        # Process the message
+        result = workflow.process_message(
+            message=request.message,
+            thread_id=thread_id,
+            existing_state=existing_state
+        )
         
         # Extract Iris's response
         messages = result.get("messages", [])
