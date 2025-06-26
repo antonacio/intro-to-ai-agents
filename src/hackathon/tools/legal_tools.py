@@ -186,29 +186,20 @@ def classify_legal_area(legal_area: LegalAreas) -> dict:
 
 
 @tool(parse_docstring=True)
-def end_conversation(summary: str, next_steps: str) -> dict:
+def end_conversation() -> dict:
     """End the conversation and prepare handoff to the deck drafting agent.
 
-    This tool should be called when enough information has been gathered
-    from the client to proceed with drafting a legal pitch deck.
-
-    Args:
-        summary: A summary of the key information gathered during the conversation
-        next_steps: Recommended next steps for the drafting team
+    Call this tool when you have gathered sufficient information from the client
+    and are ready to conclude the intake consultation.
 
     Returns:
         dict: Handoff information for the deck drafting agent
     """
-    handoff_data = {
+    return {
         "status": "conversation_ended",
-        "summary": summary,
-        "next_steps": next_steps,
         "handoff_to": "deck_drafting_agent",
-        "message": f"Thank you for sharing this information. Based on our conversation, \n"
-        f"I've prepared a summary for our team to create a tailored pitch deck \n"
-        f"for your legal needs. You'll receive our proposal shortly.",
+        "message": "Thank you for taking the time to share your legal requirements with me today. I have gathered all the essential information about your situation and will now forward this to our legal team. They will prepare a comprehensive pitch deck that outlines our relevant expertise and proposed approach for your matter. You can expect to receive our detailed proposal within 24-48 hours. We appreciate your time and look forward to the opportunity to assist you with your legal challenges."
     }
-    return handoff_data
 
 
 @tool(parse_docstring=True)

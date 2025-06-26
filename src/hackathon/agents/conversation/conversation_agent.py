@@ -5,10 +5,7 @@ from hackathon.agents.react.agent import ReActAgent
 from hackathon.tools.legal_tools import (
     search_web,
     classify_legal_area,
-    extract_client_info,
-    search_lawyers_db,
     end_conversation,
-    retrieve_uploaded_docs,
 )
 
 
@@ -90,22 +87,3 @@ class ConversationAgent(ReActAgent):
         )
 
         return result
-
-    def extract_conversation_summary(self, thread_id: str = "default") -> dict:
-        """Extract a summary of the conversation for the drafting agent.
-
-        Args:
-            thread_id: Thread ID to extract conversation from
-
-        Returns:
-            dict: Summary of collected information
-        """
-        # TODO: Implement conversation summary extraction
-        # This would analyze the full conversation and extract key information
-        return {
-            "client_info": {},
-            "legal_areas": [],
-            "specific_needs": [],
-            "timeline": None,
-            "additional_context": "",
-        }

@@ -1,7 +1,7 @@
 """Drafting node for multi-agent legal workflow."""
 
 from typing import Dict, Any
-from .multi_agent_state import MultiAgentState
+from .state import MultiAgentState
 
 
 def drafting_node(state: MultiAgentState) -> Dict[str, Any]:

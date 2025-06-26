@@ -2,11 +2,12 @@
 
 from typing import Dict, Any, Literal
 from langchain_core.language_models import BaseLanguageModel
+from langchain_core.messages import HumanMessage
 from langgraph.graph import START, END, StateGraph
 from langgraph.checkpoint.memory import MemorySaver
 
-from .multi_agent_state import MultiAgentState
-from .legal_conversation_agent import ConversationAgent
+from .state import MultiAgentState
+from .conversation_agent import ConversationAgent
 from .drafting_node import drafting_node
 
 
@@ -44,7 +45,8 @@ def create_conversation_node(conversation_agent: ConversationAgent):
             else {}
         )
 
-        # Run the conversation agent
+        # Run the conversation agent with recursion limit
+        run_config["recursion_limit"] = 25  # Prevent infinite loops
         result = conversation_agent.run(
             input=input_data,
             run_config=run_config,
@@ -61,12 +63,6 @@ def create_conversation_node(conversation_agent: ConversationAgent):
                         conversation_complete = True
                         break
 
-        # Extract conversation summary when conversation is complete
-        conversation_summary = {}
-        if conversation_complete:
-            summary_data = conversation_agent.extract_conversation_summary(thread_id)
-            conversation_summary = summary_data
-
         # Return state updates
         updates = {
             "messages": result_messages,
@@ -76,16 +72,68 @@ def create_conversation_node(conversation_agent: ConversationAgent):
 
         if conversation_complete:
             updates["next_agent"] = "drafting"
-            updates["conversation_summary"] = conversation_summary
 
         return updates
 
     return conversation_node
 
 
+def human_node(state: MultiAgentState) -> Dict[str, Any]:
+    """
+    Human input node for interactive conversations.
+    
+    This node pauses execution and waits for human input, enabling
+    natural conversation flow in the multi-agent workflow.
+    
+    Args:
+        state: The shared multi-agent state
+        
+    Returns:
+        dict: Updated state with human input message
+    """
+    # Get the last AI message to display to the user
+    messages = state.get("messages", [])
+    if messages:
+        last_message = messages[-1]
+        if hasattr(last_message, 'type') and last_message.type == 'ai':
+            print(f"\n🤖 Agent: {last_message.content}")
+    
+    # Get human input
+    try:
+        user_input = input("\n👤 You: ").strip()
+        
+        # Handle special commands
+        if user_input.lower() in ['quit', 'exit']:
+            return {
+                "conversation_complete": True,
+                "current_agent": "human",
+                "next_agent": "drafting"
+            }
+        
+        if not user_input:
+            # Empty input, just continue without adding message
+            return {"current_agent": "human"}
+        
+        # Add human message to the conversation
+        return {
+            "messages": [HumanMessage(content=user_input)],
+            "current_agent": "human",
+            "next_agent": "conversation"
+        }
+        
+    except (EOFError, KeyboardInterrupt):
+        # Handle non-interactive environments or interruption
+        print("\n🔄 Non-interactive environment detected or interrupted")
+        return {
+            "conversation_complete": True,
+            "current_agent": "human",
+            "next_agent": "drafting"
+        }
+
+
 def should_continue_conversation(
     state: MultiAgentState,
-) -> Literal["drafting", "conversation", "__end__"]:
+) -> Literal["drafting", "human", "__end__"]:
     """
     Determine the next step in the workflow based on current state.
 
@@ -95,15 +143,22 @@ def should_continue_conversation(
     Returns:
         str: Next node to execute or "__end__" to finish
     """
+    current_agent = state.get("current_agent", "")
+    
     # If conversation is complete, move to drafting
     if state.get("conversation_complete", False):
-        if not state.get("drafting_complete", False):
-            return "drafting"
-        else:
-            return "__end__"
-
-    # Continue conversation if not complete
-    return "conversation"
+        return "drafting"
+    
+    # If we just processed a conversation turn, go to human for input
+    if current_agent == "conversation":
+        return "human"
+    
+    # If we just got human input, go back to conversation
+    if current_agent == "human":
+        return "conversation"
+    
+    # Default: start with human input
+    return "human"
 
 
 class MultiAgentLegalGraph:
@@ -141,14 +196,20 @@ class MultiAgentLegalGraph:
         # Add nodes
         conversation_node = create_conversation_node(self.conversation_agent)
         graph.add_node("conversation", conversation_node)
+        graph.add_node("human", human_node)
         graph.add_node("drafting", drafting_node)
 
         # Define edges
-        graph.add_edge(START, "conversation")
+        graph.add_edge(START, "human")  # Start with human input
         graph.add_conditional_edges(
             "conversation",
             should_continue_conversation,
-            {"conversation": "conversation", "drafting": "drafting", "__end__": END},
+            {"human": "human", "drafting": "drafting"},
+        )
+        graph.add_conditional_edges(
+            "human", 
+            should_continue_conversation,
+            {"conversation": "conversation", "drafting": "drafting"},
         )
         graph.add_edge("drafting", END)
 
@@ -172,10 +233,7 @@ class MultiAgentLegalGraph:
             "messages": input_data.get("messages", []),
             "thread_id": thread_id,
             "conversation_complete": False,
-            "client_info": {},
-            "legal_areas": [],
-            "legal_needs": [],
-            "conversation_summary": {},
+            "legal_area": None,
             "drafting_complete": False,
             "draft_output": None,
             "current_agent": "conversation",
@@ -206,10 +264,7 @@ class MultiAgentLegalGraph:
             "messages": input_data.get("messages", []),
             "thread_id": thread_id,
             "conversation_complete": False,
-            "client_info": {},
-            "legal_areas": [],
-            "legal_needs": [],
-            "conversation_summary": {},
+            "legal_area": None,
             "drafting_complete": False,
             "draft_output": None,
             "current_agent": "conversation",

@@ -1,12 +1,12 @@
 """Conversation agents for legal client onboarding."""
 
-from hackathon.agents.conversation.legal_conversation_agent import (
+from hackathon.agents.conversation.conversation_agent import (
     ConversationAgent,
 )
-from hackathon.agents.conversation.multi_agent_graph import (
+from hackathon.agents.conversation.graph import (
     MultiAgentLegalGraph,
 )
-from hackathon.agents.conversation.multi_agent_state import (
+from hackathon.agents.conversation.state import (
     MultiAgentState,
 )
 from hackathon.agents.conversation.drafting_node import (
