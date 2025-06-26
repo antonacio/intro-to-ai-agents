@@ -1,31 +1,29 @@
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta" 
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 
-[project]
+[tool.poetry]
 name = "intro-to-ai-agents"
 version = "0.1.0"
 description = "Tutorial on how to build and orchestrate agentic systems using LangGraph. Created for the LegalTechTalk Hackathon taking place on June 26-27, 2025."
+authors = ["Your Name <you@example.com>"]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "dotenv>=0.9.9",
-    "ipykernel>=6.29.5",
-    "langchain>=0.3.26",
-    "langchain-chroma>=0.2.4",
-    "langchain-community>=0.3.26",
-    "langchain-ollama>=0.3.3",
-    "langchain-openai>=0.3.25",
-    "langgraph>=0.4.8",
-    "langgraph-cli[inmem]>=0.3.3",
-    "numpy>=2.3.1",
-    "ollama>=0.5.1",
-    "pip>=25.1.1",
-    "pre-commit>=4.2.0",
-    "pydantic>=2.11.7",
-    "unstructured[pdf]>=0.17.2",
-]
+packages = [{include = "hackathon", from = "src"}]
 
-[tool.setuptools]
-package-dir = {"" = "src"}
-packages = ["hackathon"]
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+dotenv = ">=0.9.9"
+ipykernel = ">=6.29.5"
+langchain = ">=0.3.26"
+langchain-chroma = ">=0.2.4"
+langchain-community = ">=0.3.26"
+langchain-ollama = ">=0.3.3"
+langchain-openai = ">=0.3.25"
+langgraph = ">=0.4.8"
+langgraph-cli = {version = ">=0.3.3", extras = ["inmem"]}
+numpy = ">=2.3.1"
+ollama = ">=0.5.1"
+pip = ">=25.1.1"
+pre-commit = ">=4.2.0"
+pydantic = ">=2.11.7"
+unstructured = {version = ">=0.17.2", extras = ["pdf"]}

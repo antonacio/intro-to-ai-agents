@@ -2,6 +2,11 @@ import os
 from enum import Enum
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 
 class ModelProviders(Enum):
     OLLAMA = "ollama"
@@ -20,7 +25,7 @@ class ModelProviders(Enum):
 
 MODEL_PROVIDER = os.getenv("MODEL_PROVIDER")
 
-if MODEL_PROVIDER == ModelProviders.OLLAMA:
+if MODEL_PROVIDER == ModelProviders.OLLAMA.value:
     from langchain_ollama import ChatOllama
     from langchain_ollama import OllamaEmbeddings
 
@@ -29,7 +34,7 @@ if MODEL_PROVIDER == ModelProviders.OLLAMA:
     llm = ChatOllama(model=OLLAMA_MODEL)
     embedding_model = OllamaEmbeddings(model=OLLAMA_MODEL)
 
-elif MODEL_PROVIDER == ModelProviders.OPENAI:
+elif MODEL_PROVIDER == ModelProviders.OPENAI.value:
     from langchain_openai import ChatOpenAI
     from langchain_openai import OpenAIEmbeddings
 

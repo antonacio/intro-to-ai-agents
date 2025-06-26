@@ -9,12 +9,9 @@ This is a tutorial on how to build and orchestrate agentic systems using LangGra
 First, rename the [`.env.example`](./.env.example) file to `.env` and add your team's OpenAI API key in the `OPENAI_API_KEY` field
 
 Then, follow these steps to set up your Python environment:
-1. Create a virtual environment with Python 3.12 using [UV](https://docs.astral.sh/uv/getting-started/installation/) or [conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html):
-    - **UV**: Run `uv venv --python 3.12` to create the environment, then `source .venv/bin/activate` to activate it
-    - **conda**: Run `conda create -n legal-hack python=3.12` to create the environment, then `conda activate legal-hack` to activate it
-2. Run `pip install -r requirements.txt` to install the project dependencies
-3. Run `pip install -e .` to install this repository's source code in editable mode
-4. Run `pre-commit install` to install pre-commit hooks
+1. Create a virtual environment with Python 3.12. If you don't have a preferred tool for this, we recommend using [Poetry](https://python-poetry.org/docs/#installation), which will automatically create and manage a virtual environment for you.
+2. Run `poetry install` to install the project dependencies and this repository's source code in editable mode
+3. Run `pre-commit install` to install pre-commit hooks
 
 ### LangGraph Studio
 
