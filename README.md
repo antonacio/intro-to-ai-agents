@@ -1,6 +1,6 @@
 # Introduction to AI Agents
 
-This is a tutorial on how to build and orchestrate agentic systems using LangGraph. It was created for participants of the [LegalTechTalk Hackathon](https://www.legaltech-talk.com/legaltechtalk-hackathon/) taking place on June 26-27, 2025.
+This is a tutorial on how to build and orchestrate agentic systems using LangGraph. It was presented to the participants of the [LegalTechTalk Hackathon](https://www.legaltech-talk.com/legaltechtalk-hackathon/), which took place in London on June 26-27, 2025.
 
 ## 1. Setup
 
@@ -18,9 +18,8 @@ Then, follow these steps to set up your Python environment:
 
 ### LangGraph Studio
 
-First, let's clarify some terms:
-- [LangChain](https://python.langchain.com/docs/introduction/) is an open-source framework for developing applications powered by LLMs
-- [LangGraph](https://langchain-ai.github.io/langgraph/) is an open-source framework built on top of LangChain for creating AI agents and multi-agent systems
+First, let's clarify some terms from the [LangChain](https://python.langchain.com/docs/introduction/) ecosystem:
+- [LangGraph](https://langchain-ai.github.io/langgraph/) is an open-source framework for building AI agents and multi-agent systems using LLMs
 - [LangGraph Studio](https://langchain-ai.github.io/langgraph/concepts/langgraph_studio/) is a web UI for visualizing, interacting with, and debugging LangGraph agents. It integrates seamlessly with LangSmith for LLM tracing
 - [LangSmith](https://docs.smith.langchain.com/) is an observability and evaluation platform to debug, test, and monitor LLM apps
 
