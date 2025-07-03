@@ -9,8 +9,8 @@ from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
 from typing_extensions import TypedDict
 
-from hackathon.agents.base_agent import BaseAgent
-from hackathon.agents.react.prompts import REACT_SYSTEM_PROMPT
+from examples.agents.base_agent import BaseAgent
+from examples.agents.react.prompts import REACT_SYSTEM_PROMPT
 
 
 class ReActAgent(BaseAgent):

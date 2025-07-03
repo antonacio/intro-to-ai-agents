@@ -28,4 +28,4 @@ dependencies = [
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-packages = ["hackathon"]
+packages = ["examples"]

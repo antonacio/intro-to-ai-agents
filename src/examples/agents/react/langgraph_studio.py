@@ -1,8 +1,8 @@
 import os
-from hackathon.agents.react.agent import ReActAgent
-from hackathon.tools.math import add, multiply, divide
-from hackathon.tools.rag import retrieve
-from hackathon.config import llm, ModelProviders
+from examples.agents.react.agent import ReActAgent
+from examples.tools.math import add, multiply, divide
+from examples.tools.rag import retrieve
+from examples.config import llm, ModelProviders
 
 if os.getenv("MODEL_PROVIDER") == ModelProviders.OPENAI:
     # we set parallel tool calling to false as math generally is done sequentially

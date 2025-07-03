@@ -1,5 +1,5 @@
 from langchain_core.tools import tool
-from hackathon.config import (
+from examples.config import (
     vector_store_collection_name,
     embedding_model,
     vector_store_directory,

@@ -1,7 +1,7 @@
 import logging
 
 from langchain_community.document_loaders import DirectoryLoader
-from hackathon.config import (
+from examples.config import (
     data_directory,
     vector_store_collection_name,
     vector_store_directory,

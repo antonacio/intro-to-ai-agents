@@ -7,7 +7,7 @@ from langgraph.graph.graph import Graph
 from langgraph.graph.message import add_messages
 from typing_extensions import TypedDict
 
-from hackathon.agents.base_agent import BaseAgent
+from examples.agents.base_agent import BaseAgent
 
 
 class DummyAgent(BaseAgent):
