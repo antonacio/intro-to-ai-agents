@@ -11,10 +11,10 @@ First, rename the [`.env.example`](./.env.example) file to `.env` and add your t
 Then, follow these steps to set up your Python environment:
 1. Create a virtual environment with Python 3.12 using [UV](https://docs.astral.sh/uv/getting-started/installation/) or [conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html):
     - **UV**: Run `uv venv --python 3.12` to create the environment, then `source .venv/bin/activate` to activate it
-    - **conda**: Run `conda create -n legal-hack python=3.12` to create the environment, then `conda activate legal-hack` to activate it
+    - **conda**: Run `conda create -n ai-agents python=3.12` to create the environment, then `conda activate ai-agents` to activate it
 2. Run `pip install -r requirements.txt` to install the project dependencies
 3. Run `pip install -e .` to install this repository's source code in editable mode
-4. Run `pre-commit install` to install pre-commit hooks
+4. Optional: Run `pre-commit install` to install pre-commit hooks
 
 ### LangGraph Studio
 
