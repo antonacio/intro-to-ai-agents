@@ -19,12 +19,12 @@ Then, follow these steps to set up your Python environment:
 ### LangGraph Studio
 
 First, let's clarify some terms:
-- [LangChain](https://python.langchain.com/docs/introduction/) is an open-source framework for developing applications powered by large language models (LLMs)
-- [LangGraph](https://langchain-ai.github.io/langgraph/) is an open-source framework built on top of LangChain for creating AI agents and multi-agent applications
-- [LangSmith](https://docs.smith.langchain.com/) is a unified observability and evaluation platform to debug, test, and monitor LLM apps
+- [LangChain](https://python.langchain.com/docs/introduction/) is an open-source framework for developing applications powered by LLMs
+- [LangGraph](https://langchain-ai.github.io/langgraph/) is an open-source framework built on top of LangChain for creating AI agents and multi-agent systems
 - [LangGraph Studio](https://langchain-ai.github.io/langgraph/concepts/langgraph_studio/) is a web UI for visualizing, interacting with, and debugging LangGraph agents. It integrates seamlessly with LangSmith for LLM tracing
+- [LangSmith](https://docs.smith.langchain.com/) is an observability and evaluation platform to debug, test, and monitor LLM apps
 
-In this tutorial, we will use LangGraph Studio to interact with our AI agents. Follow the instructions below to set up LangGraph Studio:
+In this tutorial, we will use LangGraph Studio to build and interact with our AI agents. Follow the instructions below to set it up:
 1. LangSmith integration:
     - **With tracing (recommended):** [Sign up for LangSmith](https://smith.langchain.com/settings), create an API key (Personal Access Token), and add it to your `.env` file in the `LANGSMITH_API_KEY` field. The traces will be available at the [LangSmith Platform](https://smith.langchain.com/)
     - **Without tracing:** Delete the `LANGSMITH_API_KEY` field and set `LANGSMITH_TRACING` to `false` in your `.env` file. LangGraph Studio will display a warning about the missing LangSmith API key, which can be safely ignored.
