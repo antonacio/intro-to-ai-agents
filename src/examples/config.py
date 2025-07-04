@@ -1,9 +1,15 @@
 import os
+import logging
+import chromadb
 from enum import Enum
 from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()  # load environment variables from .env file
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class ModelProviders(Enum):
@@ -23,11 +29,19 @@ class ModelProviders(Enum):
 
 MODEL_PROVIDER = os.getenv("MODEL_PROVIDER")
 
-if MODEL_PROVIDER == ModelProviders.OLLAMA:
+if not MODEL_PROVIDER:
+    raise ValueError(
+        "MODEL_PROVIDER environment variable is not set. "
+        "Please set it to one of the following values: "
+        f"{[sp.value for sp in ModelProviders]}"
+    )
+elif MODEL_PROVIDER == ModelProviders.OLLAMA:
     from langchain_ollama import ChatOllama
     from langchain_ollama import OllamaEmbeddings
 
     OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
+    logging.info(f"Using Ollama model: {OLLAMA_MODEL}")
+
     # define the llm and embedding model
     llm = ChatOllama(model=OLLAMA_MODEL)
     embedding_model = OllamaEmbeddings(model=OLLAMA_MODEL)
@@ -39,6 +53,9 @@ elif MODEL_PROVIDER == ModelProviders.OPENAI:
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     OPENAI_LLM_MODEL = os.getenv("OPENAI_LLM_MODEL")
     OPENAI_EMBEDDING_MODEL = os.getenv("OPENAI_EMBEDDING_MODEL")
+    logging.info(f"Using OpenAI model: {OPENAI_LLM_MODEL}")
+    logging.info(f"Using OpenAI embedding model: {OPENAI_EMBEDDING_MODEL}")
+
     # define the llm and embedding model
     llm = ChatOpenAI(model=OPENAI_LLM_MODEL, api_key=OPENAI_API_KEY)
     embedding_model = OpenAIEmbeddings(
@@ -59,3 +76,7 @@ data_directory = str((_config_dir / "../../data/").resolve())
 # vector store
 vector_store_collection_name = "rag_collection"
 vector_store_directory = str((_config_dir / "../../vector_store/").resolve())
+vector_store_client = chromadb.PersistentClient(
+    path=vector_store_directory,
+    settings=chromadb.config.Settings(anonymized_telemetry=False),
+)
