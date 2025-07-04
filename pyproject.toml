@@ -9,6 +9,7 @@ description = "Tutorial on how to build and orchestrate agentic systems using La
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "chromadb>=1.0.15",
     "dotenv>=0.9.9",
     "ipykernel>=6.29.5",
     "langchain>=0.3.26",

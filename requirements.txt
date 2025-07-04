@@ -51,7 +51,9 @@ cfgv==3.4.0
 charset-normalizer==3.4.2
     # via requests
 chromadb==1.0.15
-    # via langchain-chroma
+    # via
+    #   intro-to-ai-agents
+    #   langchain-chroma
 click==8.2.1
     # via
     #   langgraph-cli
