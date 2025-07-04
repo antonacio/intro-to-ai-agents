@@ -3,7 +3,6 @@ from typing import Annotated
 from langchain_core.language_models import BaseLanguageModel
 from langchain_core.messages import AnyMessage
 from langgraph.graph import START, END, StateGraph
-from langgraph.graph.graph import Graph
 from langgraph.graph.message import add_messages
 from typing_extensions import TypedDict
 
@@ -26,7 +25,7 @@ class DummyAgent(BaseAgent):
         """
         super().__init__(llm=llm, **kwargs)
 
-    def build_graph(self) -> Graph:
+    def build_graph(self) -> StateGraph:
         """Build the dummy agent graph."""
 
         # define the state (same as langgraph.graph.MessagesState)

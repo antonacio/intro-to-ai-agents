@@ -4,7 +4,6 @@ from langchain_core.language_models import BaseLanguageModel
 from langchain_core.messages import AnyMessage, SystemMessage
 from langchain_core.tools import BaseTool
 from langgraph.graph import START, StateGraph
-from langgraph.graph.graph import Graph
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
 from typing_extensions import TypedDict
@@ -40,7 +39,7 @@ class ReActAgent(BaseAgent):
         bind_tools_kwargs = bind_tools_kwargs or {}
         self.llm_with_tools = self.llm.bind_tools(self._tools, **bind_tools_kwargs)
 
-    def build_graph(self) -> Graph:
+    def build_graph(self) -> StateGraph:
         """Build the ReAct agent graph."""
 
         # define the state (same as langgraph.graph.MessagesState)

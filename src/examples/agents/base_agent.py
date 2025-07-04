@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any, AsyncGenerator
 
 from langchain_core.language_models import BaseLanguageModel
-from langgraph.graph.graph import Graph
+from langgraph.graph import StateGraph
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
 
@@ -24,7 +24,7 @@ class BaseAgent(ABC):
         self._recursion_limit = recursion_limit
 
     @abstractmethod
-    def build_graph(self) -> Graph:
+    def build_graph(self) -> StateGraph:
         """Builds the LangGraph graph for the agent.
 
         This method must be implemented in any subclass to define the specific
