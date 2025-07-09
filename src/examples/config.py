@@ -8,8 +8,11 @@ from dotenv import load_dotenv
 load_dotenv()  # load environment variables from .env file
 
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
 )
+
+logger = logging.getLogger(__name__)
 
 
 class ModelProviders(Enum):
@@ -40,7 +43,7 @@ elif MODEL_PROVIDER == ModelProviders.OLLAMA:
     from langchain_ollama import OllamaEmbeddings
 
     OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
-    logging.info(f"Using Ollama model: {OLLAMA_MODEL}")
+    logger.info(f"Using Ollama model: {OLLAMA_MODEL}")
 
     # define the llm and embedding model
     llm = ChatOllama(model=OLLAMA_MODEL)
@@ -53,8 +56,8 @@ elif MODEL_PROVIDER == ModelProviders.OPENAI:
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     OPENAI_LLM_MODEL = os.getenv("OPENAI_LLM_MODEL")
     OPENAI_EMBEDDING_MODEL = os.getenv("OPENAI_EMBEDDING_MODEL")
-    logging.info(f"Using OpenAI model: {OPENAI_LLM_MODEL}")
-    logging.info(f"Using OpenAI embedding model: {OPENAI_EMBEDDING_MODEL}")
+    logger.info(f"Using OpenAI model: {OPENAI_LLM_MODEL}")
+    logger.info(f"Using OpenAI embedding model: {OPENAI_EMBEDDING_MODEL}")
 
     # define the llm and embedding model
     llm = ChatOpenAI(model=OPENAI_LLM_MODEL, api_key=OPENAI_API_KEY)
