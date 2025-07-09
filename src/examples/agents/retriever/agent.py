@@ -9,7 +9,7 @@ from langchain_chroma import Chroma
 from operator import add
 
 from examples.agents.base_agent import BaseAgent
-from examples.agents.researcher.retriever.prompts import GENERATE_QUERIES_SYSTEM_PROMPT
+from examples.agents.retriever.prompts import GENERATE_QUERIES_SYSTEM_PROMPT
 from examples.config import (
     vector_store_collection_name,
     embedding_model,
