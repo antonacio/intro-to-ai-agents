@@ -12,6 +12,12 @@ from examples.agents.base_agent import BaseAgent
 from examples.agents.react.prompts import REACT_SYSTEM_PROMPT
 
 
+# define ReAct Agent state with a messages field
+# this is the same as using langgraph.graph.MessagesState directly
+class ReActState(TypedDict):
+    messages: Annotated[list[AnyMessage], add_messages]
+
+
 class ReActAgent(BaseAgent):
     """ReAct agent class for handling ReAct-based tasks."""
 
@@ -41,10 +47,6 @@ class ReActAgent(BaseAgent):
 
     def build_graph(self) -> StateGraph:
         """Build the ReAct agent graph."""
-
-        # define the state (same as langgraph.graph.MessagesState)
-        class ReActState(TypedDict):
-            messages: Annotated[list[AnyMessage], add_messages]
 
         # System message
         sys_msg = SystemMessage(content=self._system_prompt)

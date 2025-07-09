@@ -9,6 +9,12 @@ from typing_extensions import TypedDict
 from examples.agents.base_agent import BaseAgent
 
 
+# define Dummy Agent state with a messages field
+# this is the same as using langgraph.graph.MessagesState directly
+class DummyState(TypedDict):
+    messages: Annotated[list[AnyMessage], add_messages]
+
+
 class DummyAgent(BaseAgent):
     """Dummy agent that just makes a call to the LLM"""
 
@@ -27,10 +33,6 @@ class DummyAgent(BaseAgent):
 
     def build_graph(self) -> StateGraph:
         """Build the dummy agent graph."""
-
-        # define the state (same as langgraph.graph.MessagesState)
-        class DummyState(TypedDict):
-            messages: Annotated[list[AnyMessage], add_messages]
 
         # dummy node that just makes a call to the LLM
         def llm_node(state: DummyState):
