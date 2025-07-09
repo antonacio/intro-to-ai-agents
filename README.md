@@ -6,7 +6,7 @@ This is a tutorial on how to build and orchestrate agentic systems using LangGra
 
 ### Environment
 
-First, rename the [`.env.example`](./.env.example) file to `.env` and add your team's OpenAI API key in the `OPENAI_API_KEY` field
+First, create a `.env` file by running `cp .env.example .env` in your terminal and add your OpenAI API key in the `.env` file's `OPENAI_API_KEY` field.
 
 Then, follow these steps to set up your Python environment:
 1. Create a virtual environment with Python 3.12 using [UV](https://docs.astral.sh/uv/getting-started/installation/) or [conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html):
