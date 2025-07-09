@@ -1,10 +1,10 @@
 {
     "dependencies": ["./"],
     "graphs": {
-        "dummy_agent": "./src/examples/agents/dummy/langgraph_studio.py:dummy_agent_compiled_graph",
-        "react_math_agent": "./src/examples/agents/react/langgraph_studio.py:react_math_agent_compiled_graph",
-        "react_rag_agent": "./src/examples/agents/react/langgraph_studio.py:react_rag_agent_compiled_graph",
-        "react_web_search_agent": "./src/examples/agents/react/langgraph_studio.py:react_web_search_agent_compiled_graph"
+        "Dummy Agent (simple LLM call)": "./src/examples/agents/dummy/langgraph_studio.py:dummy_agent_compiled_graph",
+        "Math Agent (ReAct)": "./src/examples/agents/react/langgraph_studio.py:math_react_agent_compiled_graph",
+        "RAG Agent (ReAct)": "./src/examples/agents/react/langgraph_studio.py:rag_react_agent_compiled_graph",
+        "Web Search Agent (ReAct)": "./src/examples/agents/react/langgraph_studio.py:web_search_react_agent_compiled_graph"
     },
     "env": ".env",
     "python_version": "3.12"

@@ -52,7 +52,7 @@ class ReActAgent(BaseAgent):
         sys_msg = SystemMessage(content=self._system_prompt)
 
         # Nodes
-        def llm_node(state: ReActState):
+        def llm_node(state: ReActState) -> ReActState:
             return {
                 "messages": [self.llm_with_tools.invoke([sys_msg] + state["messages"])]
             }

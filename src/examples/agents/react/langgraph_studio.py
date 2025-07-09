@@ -13,26 +13,26 @@ else:
     bind_math_tools_kwargs = {}
 
 # Math agent
-react_math_agent = ReActAgent(
+math_react_agent = ReActAgent(
     llm=llm,
     tools=[add, multiply, divide],
     system_prompt="You are a helpful assistant tasked with performing arithmetic on a set of inputs.",
     bind_tools_kwargs=bind_math_tools_kwargs,
 )
-react_math_agent_compiled_graph = react_math_agent.build_graph().compile()
+math_react_agent_compiled_graph = math_react_agent.build_graph().compile()
 
 # RAG agent
-react_rag_agent = ReActAgent(
+rag_react_agent = ReActAgent(
     llm=llm,
     tools=[retrieve],
     system_prompt="You are a helpful assistant for question-answering tasks.",
 )
-react_rag_agent_compiled_graph = react_rag_agent.build_graph().compile()
+rag_react_agent_compiled_graph = rag_react_agent.build_graph().compile()
 
 # Web search agent
-react_web_search_agent = ReActAgent(
+web_search_react_agent = ReActAgent(
     llm=llm,
     tools=[web_search],
     system_prompt="You are a helpful assistant. You can use the web_search tool to search the web for information.",
 )
-react_web_search_agent_compiled_graph = react_web_search_agent.build_graph().compile()
+web_search_react_agent_compiled_graph = web_search_react_agent.build_graph().compile()
