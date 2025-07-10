@@ -34,17 +34,17 @@ class ReActAgent(BaseAgent):
         super().__init__(llm=llm, **kwargs)
         self._tools = tools
         self._system_prompt = system_prompt
-        # Bind tools to the LLM
+        # bind tools to the LLM
         bind_tools_kwargs = bind_tools_kwargs or {}
         self.llm_with_tools = self.llm.bind_tools(self._tools, **bind_tools_kwargs)
 
     def build_graph(self) -> StateGraph:
         """Build the ReAct agent graph."""
 
-        # System message
+        # system message
         sys_msg = SystemMessage(content=self._system_prompt)
 
-        # Nodes
+        # nodes
         def llm_node(state: ReActState) -> ReActState:
             return {
                 "messages": [self.llm_with_tools.invoke([sys_msg] + state["messages"])]
@@ -52,14 +52,14 @@ class ReActAgent(BaseAgent):
 
         tool_node = ToolNode(self._tools)
 
-        # Graph
+        # graph
         react_graph = StateGraph(ReActState)
 
-        # Define nodes
+        # define nodes
         react_graph.add_node("llm", llm_node)
         react_graph.add_node("tools", tool_node)
 
-        # Define edges
+        # define edges
         react_graph.add_edge(START, "llm")
         react_graph.add_conditional_edges(
             "llm", tools_condition

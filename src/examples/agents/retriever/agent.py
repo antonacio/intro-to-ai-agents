@@ -2,6 +2,7 @@ from langchain_core.language_models import BaseLanguageModel
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Send
 from langchain_chroma import Chroma
+from langgraph.utils.runnable import RunnableCallable
 
 from examples.agents.base_agent import BaseAgent
 from examples.agents.retriever.prompts import GENERATE_QUERIES_SYSTEM_PROMPT
@@ -24,18 +25,18 @@ class RetrieverAgent(BaseAgent):
     def __init__(
         self,
         llm: BaseLanguageModel,
-        generate_queries_system_prompt: str = GENERATE_QUERIES_SYSTEM_PROMPT,
+        generate_queries_prompt: str = GENERATE_QUERIES_SYSTEM_PROMPT,
         **kwargs,
     ):
         """Initialize the Retriever agent.
 
         Args:
             llm: The language model to use.
-            generate_queries_system_prompt: System prompt for the generate_queries node.
+            generate_queries_prompt: System prompt for the generate_queries node.
             **kwargs: Additional keyword arguments for the base agent initialization.
         """
         super().__init__(llm=llm, **kwargs)
-        self._generate_queries_system_prompt = generate_queries_system_prompt
+        self._generate_queries_prompt = generate_queries_prompt
         # instantiate the vector store to retrieve documents from
         self._vector_store = Chroma(
             client=vector_store_client,
@@ -45,13 +46,18 @@ class RetrieverAgent(BaseAgent):
             ).metadata,
             embedding_function=embedding_model,
         )
+        # retrieve documents using max marginal relevance
+        self._retrieval_kwargs = {
+            "search_type": "mmr",
+            "search_kwargs": {"k": 2, "fetch_k": 5},
+        }
 
     def build_graph(self) -> StateGraph:
         """Build the Retriever agent graph."""
 
         def generate_queries(state: InputState) -> RetrieverState:
             """Generate search queries based on the research task (a step in the research plan)."""
-            generate_queries_prompt = self._generate_queries_system_prompt.format(
+            generate_queries_prompt = self._generate_queries_prompt.format(
                 research_task=state.research_task
             )
             generated_queries = self.llm.with_structured_output(
@@ -60,36 +66,39 @@ class RetrieverAgent(BaseAgent):
 
             return {"search_queries": generated_queries.queries}
 
-        async def query_documents(state: SingleQueryState) -> RetrieverState:
-            """Retrieve information from documents based on a given search query."""
-            # retrieve documents from the vector store with max marginal relevance
-            retriever = self._vector_store.as_retriever(
-                search_type="mmr",
-                search_kwargs={"k": 2, "fetch_k": 5},
-            )
+        async def query_documents_async(state: SingleQueryState) -> RetrieverState:
+            """Retrieve documents asynchronously based on a given search query."""
+            retriever = self._vector_store.as_retriever(**self._retrieval_kwargs)
             retrieved_chunks = await retriever.ainvoke(state.query)
-
             return {"retrieved_chunks": retrieved_chunks}
 
-        def initialize_parallel_retrieval(state: RetrieverState) -> list[Send]:
-            """Creates parallel retrieval tasks for each generated query."""
+        def query_documents(state: SingleQueryState) -> RetrieverState:
+            """Retrieve documents synchronously based on a given search query."""
+            retriever = self._vector_store.as_retriever(**self._retrieval_kwargs)
+            retrieved_chunks = retriever.invoke(state.query)
+            return {"retrieved_chunks": retrieved_chunks}
+
+        def initialize_retrieval(state: RetrieverState) -> list[Send]:
+            """Creates a retrieval task for each generated query."""
             return [
                 Send("query_documents", SingleQueryState(query=query))
                 for query in state.search_queries
             ]
 
-        # Define the graph
+        # define the graph
         retriever_graph = StateGraph(
             input_schema=InputState, state_schema=RetrieverState
         )
         retriever_graph.add_node("generate_queries", generate_queries)
-        retriever_graph.add_node("query_documents", query_documents)
+        # use RunnableCallable to handle both sync and async graph executions
+        retriever_graph.add_node(
+            "query_documents",
+            RunnableCallable(func=query_documents, afunc=query_documents_async),
+        )
 
         retriever_graph.add_edge(START, "generate_queries")
         retriever_graph.add_conditional_edges(
-            "generate_queries",
-            initialize_parallel_retrieval,
-            ["query_documents"],
+            "generate_queries", initialize_retrieval, ["query_documents"]
         )
         retriever_graph.add_edge("query_documents", END)
 

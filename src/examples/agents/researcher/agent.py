@@ -1,6 +1,7 @@
 from typing import Literal
 from langchain_core.language_models import BaseLanguageModel
 from langgraph.graph import END, START, StateGraph
+from langgraph.utils.runnable import RunnableCallable
 
 from examples.agents.base_agent import BaseAgent
 from examples.agents.researcher.prompts import (
@@ -128,16 +129,30 @@ class ResearchAgent(BaseAgent):
                 "current_step": 0,
             }
 
-        # compile the retriever agent graph outside the conduct_research node
-        # so that it is rendered as a sub graph in the research agent graph
+        # compile the Retriever Agent graph outside the conduct_research node
+        # so that it is rendered as a sub graph in the Research Agent graph
         retriever_agent_compiled_graph = self.retriever_agent_graph.compile()
 
-        async def conduct_research(state: ResearchState) -> ResearchState:
-            """Conduct research on the documents."""
+        async def conduct_research_async(state: ResearchState) -> ResearchState:
+            """Conduct research on the documents asynchronously."""
             # format the chat history
             current_research_task = state.research_steps[state.current_step]
-            # invoke the retriever agent
+            # invoke the retriever agent asynchronously
             retriever_agent_result = await retriever_agent_compiled_graph.ainvoke(
+                {"research_task": current_research_task}
+            )
+            # update the state
+            return {
+                "documents": retriever_agent_result["retrieved_chunks"],
+                "current_step": state.current_step + 1,
+            }
+
+        def conduct_research(state: ResearchState) -> ResearchState:
+            """Conduct research on the documents synchronously."""
+            # format the chat history
+            current_research_task = state.research_steps[state.current_step]
+            # invoke the retriever agent synchronously
+            retriever_agent_result = retriever_agent_compiled_graph.invoke(
                 {"research_task": current_research_task}
             )
             # update the state
@@ -198,7 +213,11 @@ class ResearchAgent(BaseAgent):
         research_graph.add_node("ask_for_more_info", ask_for_more_info)
         research_graph.add_node("respond_to_user", respond_to_user)
         research_graph.add_node("create_research_plan", create_research_plan)
-        research_graph.add_node("conduct_research", conduct_research)
+        # use RunnableCallable to handle both sync and async graph executions
+        research_graph.add_node(
+            "conduct_research",
+            RunnableCallable(func=conduct_research, afunc=conduct_research_async),
+        )
         research_graph.add_node("collect_documents", collect_documents)
         research_graph.add_node(
             "respond_with_research_results", respond_with_research_results
