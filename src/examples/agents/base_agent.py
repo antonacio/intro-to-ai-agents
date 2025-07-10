@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, AsyncGenerator
+from typing import Any
 
 from langchain_core.language_models import BaseLanguageModel
 from langgraph.graph import StateGraph
@@ -40,7 +40,7 @@ class BaseAgent(ABC):
         run_config: dict[str, Any] = None,
         stream_mode: str = "values",
         checkpointer: BaseCheckpointSaver = None,
-    ) -> dict[str, Any] | Any:
+    ) -> dict[str, Any]:
         """Run the agent graph synchronously.
 
         Args:
@@ -73,7 +73,7 @@ class BaseAgent(ABC):
         run_config: dict[str, Any] = None,
         stream_mode: str = "values",
         checkpointer: BaseCheckpointSaver = None,
-    ) -> AsyncGenerator:
+    ) -> dict[str, Any]:
         """Run the agent graph asynchronously.
 
         Args:
@@ -82,8 +82,8 @@ class BaseAgent(ABC):
             stream_mode: The mode for streaming the output.
             checkpointer: The checkpointer to use.
 
-        Yields:
-            Stream of states from the agent graph execution.
+        Returns:
+            The output state of the agent graph execution.
         """
         # set recursion limit to default if not provided
         run_config = run_config or {}
@@ -93,9 +93,9 @@ class BaseAgent(ABC):
         # compile the agent graph with the checkpointer
         compiled_graph = self.build_graph().compile(checkpointer=checkpointer)
         # run the agent graph asynchronously
-        async for event in compiled_graph.astream(
+        results = await compiled_graph.ainvoke(
             input=input,
             config=run_config,
             stream_mode=stream_mode,
-        ):
-            yield event
+        )
+        return results
