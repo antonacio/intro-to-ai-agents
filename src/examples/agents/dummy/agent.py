@@ -1,18 +1,8 @@
-from typing import Annotated
-
 from langchain_core.language_models import BaseLanguageModel
-from langchain_core.messages import AnyMessage
 from langgraph.graph import START, END, StateGraph
-from langgraph.graph.message import add_messages
-from typing_extensions import TypedDict
 
 from examples.agents.base_agent import BaseAgent
-
-
-# define Dummy Agent state with a messages field
-# this is the same as using langgraph.graph.MessagesState directly
-class DummyState(TypedDict):
-    messages: Annotated[list[AnyMessage], add_messages]
+from examples.agents.dummy.schemas import DummyState
 
 
 class DummyAgent(BaseAgent):

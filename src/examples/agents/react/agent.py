@@ -1,21 +1,14 @@
-from typing import Annotated, Any
+from typing import Any
 
 from langchain_core.language_models import BaseLanguageModel
-from langchain_core.messages import AnyMessage, SystemMessage
+from langchain_core.messages import SystemMessage
 from langchain_core.tools import BaseTool
 from langgraph.graph import START, StateGraph
-from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
-from typing_extensions import TypedDict
 
 from examples.agents.base_agent import BaseAgent
 from examples.agents.react.prompts import REACT_SYSTEM_PROMPT
-
-
-# define ReAct Agent state with a messages field
-# this is the same as using langgraph.graph.MessagesState directly
-class ReActState(TypedDict):
-    messages: Annotated[list[AnyMessage], add_messages]
+from examples.agents.react.schemas import ReActState
 
 
 class ReActAgent(BaseAgent):
