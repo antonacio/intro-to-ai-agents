@@ -5,7 +5,7 @@ from langchain_chroma import Chroma
 
 from examples.agents.base_agent import BaseAgent
 from examples.agents.retriever.prompts import GENERATE_QUERIES_SYSTEM_PROMPT
-from examples.agents.retriever.schema import (
+from examples.agents.retriever.schemas import (
     GeneratedQueries,
     SingleQueryState,
     InputState,
@@ -51,7 +51,6 @@ class RetrieverAgent(BaseAgent):
 
         def generate_queries(state: InputState) -> RetrieverState:
             """Generate search queries based on the research task (a step in the research plan)."""
-
             generate_queries_prompt = self._generate_queries_system_prompt.format(
                 research_task=state.research_task
             )
@@ -63,7 +62,6 @@ class RetrieverAgent(BaseAgent):
 
         async def query_documents(state: SingleQueryState) -> RetrieverState:
             """Retrieve information from documents based on a given search query."""
-
             # retrieve documents from the vector store with max marginal relevance
             retriever = self._vector_store.as_retriever(
                 search_type="mmr",
