@@ -1,3 +1,5 @@
+"""LangGraph Studio script for the Research Agent."""
+
 from examples.agents.researcher.agent import ResearchAgent
 from examples.config import llm
 

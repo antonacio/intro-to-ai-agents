@@ -1,3 +1,5 @@
+"""LangGraph Studio script for the Dummy Agent."""
+
 from examples.agents.dummy.agent import DummyAgent
 from examples.config import llm
 

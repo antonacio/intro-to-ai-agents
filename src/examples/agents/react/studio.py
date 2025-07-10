@@ -1,3 +1,5 @@
+"""LangGraph Studio script for the ReAct Agent."""
+
 import os
 from examples.agents.react.agent import ReActAgent
 from examples.tools.math import add, multiply, divide
