@@ -43,11 +43,8 @@ class RetrieverState(BaseModel):
         description="A list of search queries to retrieve documents from the vector store in order to answer the research task.",
     )
     retrieved_chunks: Annotated[list[Document], add] = Field(
-        default=[], description="A list of retrieved chunks from the vector store."
-    )
-    retrieved_context: str = Field(
-        default="",
-        description="A string containing all the retrieved chunks from the vector store.",
+        default=[],
+        description="A list of retrieved document chunks from the vector store.",
     )
 
 
@@ -111,27 +108,6 @@ class RetrieverAgent(BaseAgent):
 
             return {"retrieved_chunks": retrieved_chunks}
 
-        def collect_documents(state: RetrieverState) -> RetrieverState:
-            """Collect the retrieved chunks from the vector store."""
-            formatted_chunks = []
-            collected_ids = set()
-            for chunk in state.retrieved_chunks:
-                if chunk.id not in collected_ids:
-                    collected_ids.add(chunk.id)
-                    # format the metadata
-                    metadata = chunk.metadata or {}
-                    formatted_metadata = "".join(
-                        f" {k}={v!r}" for k, v in metadata.items()
-                    )
-                    # format the chunk content with the metadata
-                    formatted_chunks.append(
-                        f"<document{formatted_metadata}>\n"
-                        f"{chunk.page_content}\n"
-                        f"</document>"
-                    )
-
-            return {"retrieved_context": "\n\n".join(formatted_chunks)}
-
         def initialize_parallel_retrieval(state: RetrieverState) -> list[Send]:
             """Creates parallel retrieval tasks for each generated query."""
             return [
@@ -145,14 +121,13 @@ class RetrieverAgent(BaseAgent):
         )
         retriever_graph.add_node("generate_queries", generate_queries)
         retriever_graph.add_node("query_documents", query_documents)
-        retriever_graph.add_node("collect_documents", collect_documents)
+
         retriever_graph.add_edge(START, "generate_queries")
         retriever_graph.add_conditional_edges(
             "generate_queries",
             initialize_parallel_retrieval,
             ["query_documents"],
         )
-        retriever_graph.add_edge("query_documents", "collect_documents")
-        retriever_graph.add_edge("collect_documents", END)
+        retriever_graph.add_edge("query_documents", END)
 
         return retriever_graph
