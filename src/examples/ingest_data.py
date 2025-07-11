@@ -87,7 +87,7 @@ def embed_and_store_data(doc_splits: list[Document], file_names: list[str]):
 
 
 if __name__ == "__main__":
-    logger.info("--> Starting the Data Indexing pipeline ...")
+    logger.info("--> Starting the data ingestion pipeline ...")
     # get file names from data directory
     file_names = os.listdir(data_directory)
     # load PDF data
@@ -98,4 +98,4 @@ if __name__ == "__main__":
     doc_splits = split_data(docs_pages)
     # embed and store data
     embed_and_store_data(doc_splits, file_names)
-    logger.info("--> Data Indexing pipeline completed successfully!")
+    logger.info("--> Data ingestion completed successfully!")

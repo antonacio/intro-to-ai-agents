@@ -37,7 +37,7 @@ To start building AI Agents, work through the content of these notebooks:
 - [`2_math-agent.ipynb`](notebooks/2_math-agent.ipynb) builds a simple ReAct agent that calls math tools to perform arithmetic operations
 - [`3_rag-agent.ipynb`](notebooks/3_rag-agent.ipynb) builds a pipeline to ingest and index data from source documents and creates a ReAct agent that can answer questions about those documents through Retrieval Augmented Generation (RAG)
 
-If you'd like to ingest and index additional documents for the RAG agent, move the desired files into the `data/` folder and then run `python src/examples/index_data.py`. This command executes the indexing pipeline, which loads every document in the `data/` directory, splits each one into chunks, embeds those chunks as vectors, and stores the resulting embeddings in a vector store under the `vector_store/` directory.
+If you'd like to ingest and index additional documents for the RAG agent, move the desired files into the `data/` folder and then run `python src/examples/ingest_data.py`. This command executes the ingestion pipeline, which loads every document in the `data/` directory, splits each one into chunks, embeds those chunks as vectors, and stores the resulting embeddings in a vector store under the `vector_store/` directory.
 
 Once you have completed the notebooks, feel free to explore the source code in `src/examples/`, interact with the agents in LangGraph Studio, and start building your own agentic systems. I'm excited to see what you build!
 
