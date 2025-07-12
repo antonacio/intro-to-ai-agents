@@ -1,0 +1,12 @@
+{
+    "dependencies": ["./"],
+    "graphs": {
+        "Research Agent (Agentic RAG)": "./src/examples/agents/researcher/studio.py:research_agent_compiled_graph",
+        "RAG Agent (ReAct)": "./src/examples/agents/react/studio.py:rag_react_agent_compiled_graph",
+        "Web Search Agent (ReAct)": "./src/examples/agents/react/studio.py:web_search_react_agent_compiled_graph",
+        "Math Agent (ReAct)": "./src/examples/agents/react/studio.py:math_react_agent_compiled_graph",
+        "Dummy Agent (simple LLM call)": "./src/examples/agents/dummy/studio.py:dummy_agent_compiled_graph"
+    },
+    "env": ".env",
+    "python_version": "3.12"
+}
