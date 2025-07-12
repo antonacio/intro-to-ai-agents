@@ -70,7 +70,7 @@ def embed_and_store_data(doc_splits: list[Document], file_names: list[str]):
     logger.info("STEP 3. Embedding and storing the chunks in the vector store ...")
     # create the collection
     logger.info(f"  Creating collection '{vector_store_collection_name}' ...")
-    collection = vector_store_client.create_collection(
+    collection = vector_store_client.get_or_create_collection(
         vector_store_collection_name,
         metadata={
             "num_files": len(file_names),
