@@ -7,20 +7,20 @@ from examples.config import (
 )
 from langchain_chroma import Chroma
 
-# get the collection from the vector store to retrieve the metadata
-collection = vector_store_client.get_or_create_collection(vector_store_collection_name)
+# get the collection from the vector store client
+collection = vector_store_client.get_collection(vector_store_collection_name)
 # instantiate the vector store
 vector_store = Chroma(
     client=vector_store_client,
-    collection_name=vector_store_collection_name,
+    collection_name=collection.name,
     collection_metadata=collection.metadata,
     embedding_function=embedding_model,
 )
 
 retrieval_tool_description = f"""\
 Search and retrieve information from documents to answer a user query.
-You have access to the following {vector_store._collection_metadata["num_files"]} document(s):
-{vector_store._collection_metadata["file_names"]}
+You have access to the following {collection.metadata["num_files"]} document(s):
+{collection.metadata["file_names"]}
 """
 
 

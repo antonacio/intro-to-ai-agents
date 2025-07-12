@@ -36,17 +36,23 @@ Finally, run `pre-commit install` to install pre-commit hooks.
 
 Some agents in this tutorial retrieve information from source documents using a technique known as [retrieval-augmented generation (RAG)](https://python.langchain.com/docs/concepts/rag/). RAG enables LLMs to incorporate domain-specific, up-to-date information instead of relying solely on their static training data, improving the accuracy and reliability of their answers.
 
-For demonstration purposes, this repo includes [Meta’s Terms of Service](https://mbasic.facebook.com/legal/terms/plain_text_terms/) in the `data/` folder. To use your own documents, simply drop them into that same folder.
-
-Next, ingest and index the documents by running:
+For demonstration purposes, this repo includes [Meta’s Terms of Service](https://mbasic.facebook.com/legal/terms/plain_text_terms/) in the `data/` folder. To use your own documents, simply drop them into that same folder. Then, ingest the documents by running:
 
 ```bash
-python src/examples/ingest_data.py
+python src/examples/ingestion/ingest_data.py
 ```
 
 This script loads every file in `data/`, splits each document into chunks, embeds those chunks as vectors, and stores the resulting embeddings in a vector store located at `vector_store/`. For a detailed walkthrough of that process, see the [`3_rag-agent.ipynb`](notebooks/3_rag-agent.ipynb) notebook.
 
->Note: The ingestion pipeline currently supports PDF files only
+> [!NOTE]
+> The ingestion pipeline currently supports PDF files only
+
+Finally, to list or delete the ingested data, run the following commands:
+
+```bash
+python src/examples/ingestion/list_data.py
+python src/examples/ingestion/delete_data.py
+```
 
 ## 2. Usage
 

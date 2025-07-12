@@ -1,9 +1,11 @@
 import os
 import logging
-import chromadb
+from chromadb import PersistentClient
+from chromadb.config import Settings
 from enum import Enum
 from pathlib import Path
 from dotenv import load_dotenv
+from pydantic import SecretStr
 
 load_dotenv()  # load environment variables from .env file
 
@@ -42,7 +44,7 @@ elif MODEL_PROVIDER == ModelProviders.OLLAMA:
     from langchain_ollama import ChatOllama
     from langchain_ollama import OllamaEmbeddings
 
-    OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
+    OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "")
     logger.info(f"Using Ollama model: {OLLAMA_MODEL}")
 
     # define the llm and embedding model
@@ -53,9 +55,9 @@ elif MODEL_PROVIDER == ModelProviders.OPENAI:
     from langchain_openai import ChatOpenAI
     from langchain_openai import OpenAIEmbeddings
 
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-    OPENAI_LLM_MODEL = os.getenv("OPENAI_LLM_MODEL")
-    OPENAI_EMBEDDING_MODEL = os.getenv("OPENAI_EMBEDDING_MODEL")
+    OPENAI_API_KEY = SecretStr(os.getenv("OPENAI_API_KEY", ""))
+    OPENAI_LLM_MODEL = os.getenv("OPENAI_LLM_MODEL", "")
+    OPENAI_EMBEDDING_MODEL = os.getenv("OPENAI_EMBEDDING_MODEL", "")
     logger.info(f"Using OpenAI model: {OPENAI_LLM_MODEL}")
     logger.info(f"Using OpenAI embedding model: {OPENAI_EMBEDDING_MODEL}")
 
@@ -79,7 +81,7 @@ data_directory = str((_config_dir / "../../data/").resolve())
 # vector store
 vector_store_collection_name = "rag_collection"
 vector_store_directory = str((_config_dir / "../../vector_store/").resolve())
-vector_store_client = chromadb.PersistentClient(
+vector_store_client = PersistentClient(
     path=vector_store_directory,
-    settings=chromadb.config.Settings(anonymized_telemetry=False),
+    settings=Settings(anonymized_telemetry=False),
 )

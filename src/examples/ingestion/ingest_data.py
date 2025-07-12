@@ -68,17 +68,21 @@ def split_data(docs_pages: list[Document]) -> list[Document]:
 
 def embed_and_store_data(doc_splits: list[Document], file_names: list[str]):
     logger.info("STEP 3. Embedding and storing the chunks in the vector store ...")
-    # create the vector store
-    logger.info(
-        f"  Creating the vector store with collection name '{vector_store_collection_name}'"
-    )
-    vector_store = Chroma(
-        client=vector_store_client,
-        collection_name=vector_store_collection_name,
-        collection_metadata={
+    # create the collection
+    logger.info(f"  Creating collection '{vector_store_collection_name}' ...")
+    collection = vector_store_client.create_collection(
+        vector_store_collection_name,
+        metadata={
             "num_files": len(file_names),
             "file_names": ", ".join(file_names),
         },
+    )
+    # create the vector store
+    logger.info(f"  Creating the vector store with collection name '{collection.name}'")
+    vector_store = Chroma(
+        client=vector_store_client,
+        collection_name=collection.name,
+        collection_metadata=collection.metadata,
         embedding_function=embedding_model,
     )
     # index chunks
