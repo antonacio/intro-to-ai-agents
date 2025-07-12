@@ -16,11 +16,20 @@ First, create a `.env` file by running `cp .env.example .env` in your terminal a
 
 Then, follow these steps to set up your Python environment:
 1. Create a virtual environment with Python 3.12 using [UV](https://docs.astral.sh/uv/getting-started/installation/) or [conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html):
-    - **UV**: Run `uv venv --python 3.12` to create the environment, then `source .venv/bin/activate` to activate it
-    - **conda**: Run `conda create -n ai-agents python=3.12` to create the environment, then `conda activate ai-agents` to activate it
-2. Run `pip install -r requirements.txt` to install the project dependencies
-3. Run `pip install -e .` to install this repository's source code in editable mode
-4. Optional: Run `pre-commit install` to install pre-commit hooks
+- If you are using **UV**, run:
+    ```bash
+    uv venv --python 3.12                  # create the environment
+    source .venv/bin/activate              # activate the environment
+    uv pip install -r requirements.txt     # install dependencies
+    ```
+- If you are using **conda**, run:
+    ```bash
+    conda create -n ai-agents python=3.12  # create the environment
+    conda activate ai-agents               # activate the environment
+    pip install -r requirements.txt        # install dependencies
+    ```
+2. Run `pip install -e .` to install this repository's source code in editable mode
+3. Optional: Run `pre-commit install` to install pre-commit hooks
 
 ### 🗂️ Data
 
