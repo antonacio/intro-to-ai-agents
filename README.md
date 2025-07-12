@@ -16,27 +16,25 @@ First, create a `.env` file by running `cp .env.example .env` in your terminal a
 
 Then, create a virtual environment with Python 3.12 using [UV](https://docs.astral.sh/uv/getting-started/installation/) or [conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html).
 - If you are using **conda**, run:
-    ```bash
-    conda create -n ai-agents python=3.12  # create the environment
-    conda activate ai-agents               # activate the environment
-    pip install -r requirements.txt        # install dependencies
-    pip install -e .                       # install this repo's source code in editable mode
-    ```
+```bash
+conda create -n ai-agents python=3.12  # create the environment
+conda activate ai-agents               # activate the environment
+pip install -r requirements.txt        # install dependencies
+pip install -e .                       # install this repo's source code in editable mode
+```
 - If you are using **UV**, run:
-    ```bash
-    uv venv --python 3.12                  # create the environment
-    source .venv/bin/activate              # activate the environment
-    uv pip install -r requirements.txt     # install dependencies
-    uv pip install -e .                    # install this repo's source code in editable mode
-    ```
+```bash
+uv venv --python 3.12                  # create the environment
+source .venv/bin/activate              # activate the environment
+uv pip install -r requirements.txt     # install dependencies
+uv pip install -e .                    # install this repo's source code in editable mode
+```
 
 Finally, run `pre-commit install` to install pre-commit hooks.
 
 ### 🗂️ Data
 
-Some agents in this tutorial retrieve information from source documents using a technique known as [retrieval-augmented generation (RAG)](https://python.langchain.com/docs/concepts/rag/).
-
-RAG enables LLMs to incorporate domain-specific, up-to-date information instead of relying solely on their static training data, improving the accuracy and reliability of their answers.
+Some agents in this tutorial retrieve information from source documents using a technique known as [retrieval-augmented generation (RAG)](https://python.langchain.com/docs/concepts/rag/). RAG enables LLMs to incorporate domain-specific, up-to-date information instead of relying solely on their static training data, improving the accuracy and reliability of their answers.
 
 For demonstration purposes, this repo includes [Meta’s Terms of Service](https://mbasic.facebook.com/legal/terms/plain_text_terms/) in the `data/` folder. To use your own documents, simply drop them into that same folder.
 
