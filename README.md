@@ -3,12 +3,12 @@
 This is a hands-on tutorial for building and orchestrating agentic systems, which I presented to the participants of the [LegalTechTalk Hackathon](https://www.legaltech-talk.com/legaltechtalk-hackathon/) (London, 26-27 June 2025).
 
 In this tutorial you will build and run to the following AI Agents:
-- Research Agent with Agentic RAG (see video below)
+- Research Agent with Agentic RAG (see below)
 - RAG Agent
 - Web Search Agent
 - Math Agent
 
-[![Watch the video](https://raw.githubusercontent.com/antonacio/intro-to-ai-agents/develop/static/research-agent-image.png)](https://raw.githubusercontent.com/antonacio/intro-to-ai-agents/develop/static/research-agent-video.mp4)
+![research-agent-demo](static/research-agent-demo.gif)
 
 ## 1. Setup
 
