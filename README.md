@@ -30,7 +30,11 @@ RAG enables LLMs to incorporate domain-specific, up-to-date information instead 
 
 For demonstration purposes, this repo includes [Meta’s Terms of Service](https://mbasic.facebook.com/legal/terms/plain_text_terms/) in the `data/` folder. To use your own documents, simply drop them into that same folder.
 
-Next, ingest and index the documents by running `python src/examples/ingest_data.py`
+Next, ingest and index the documents by running:
+
+```bash
+python src/examples/ingest_data.py
+```
 
 This script loads every file in `data/`, splits each document into chunks, embeds those chunks as vectors, and stores the resulting embeddings in a vector store located at `vector_store/`. For a detailed walkthrough of that process, see the [`3_rag-agent.ipynb`](notebooks/3_rag-agent.ipynb) notebook.
 
