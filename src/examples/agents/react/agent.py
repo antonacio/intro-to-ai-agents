@@ -41,14 +41,14 @@ class ReActAgent(BaseAgent):
     def build_graph(self) -> StateGraph:
         """Build the ReAct agent graph."""
 
-        # system message
-        sys_msg = SystemMessage(content=self._system_prompt)
-
         # nodes
         def llm_node(state: ReActState) -> ReActState:
-            return {
-                "messages": [self.llm_with_tools.invoke([sys_msg] + state["messages"])]
-            }
+            # build the system message
+            sys_msg = SystemMessage(content=self._system_prompt)
+            # invoke the model with system and chat history messages
+            response = self.llm_with_tools.invoke([sys_msg] + state["messages"])
+            # update the state
+            return {"messages": [response]}
 
         tool_node = ToolNode(self._tools)
 

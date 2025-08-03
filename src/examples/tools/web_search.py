@@ -1,8 +1,11 @@
+import logging
 from datetime import datetime
 from textwrap import dedent
 from langchain_core.tools import tool
 from langchain_core.messages import AIMessage
 from examples.config import MODEL_PROVIDER, llm, ModelProviders
+
+logger = logging.getLogger(__name__)
 
 
 @tool(
@@ -27,10 +30,17 @@ from examples.config import MODEL_PROVIDER, llm, ModelProviders
 )
 def web_search(query: str) -> tuple[dict, AIMessage]:
     if MODEL_PROVIDER != ModelProviders.OPENAI:
-        raise ValueError(
+        logger.error(
             f"Unsupported model provider for web search: '{MODEL_PROVIDER}'. "
-            f"Only '{ModelProviders.OPENAI}' is supported for web search."
+            f"Only '{ModelProviders.OPENAI.value}' supports web search."
         )
+        response = (
+            f"The current model provider '{MODEL_PROVIDER}' does not support the web search tool. "
+            "Tell the user that you cannot perform a web search with the current model provider "
+            "configuration, and ask them to change the MODEL_PROVIDER environment variable to "
+            f"'{ModelProviders.OPENAI.value}' if they want to execute web search queries."
+        )
+        return response, response
 
     tool = {"type": "web_search_preview"}
     llm_with_web_search = llm.bind_tools([tool])

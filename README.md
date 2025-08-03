@@ -1,6 +1,6 @@
 # Let's build AI Agents!
 
-This is a hands-on tutorial for building and orchestrating agentic systems, which I presented to the participants of the [LegalTechTalk Hackathon](https://www.legaltech-talk.com/legaltechtalk-hackathon/) (London, 26-27 June 2025).
+This is a hands-on tutorial for building and orchestrating agentic systems, which I presented to the participants of the [LegalTechTalk Hackathon](https://www.linkedin.com/posts/quantumblack_hackathon-legaltechtalkhackathon-agenticai-activity-7346665525600567297-Cxkd) (London, 26-27 June 2025).
 
 In this tutorial you will build and run to the following AI Agents:
 - Research Agent with Agentic RAG (see below)
@@ -99,7 +99,7 @@ I’m excited to see what you build!
 3. Select a model from the [Ollama library](https://ollama.com/library). Keep in mind that:
     - The model should support tool/function calling to enable agentic use cases
     - As a general rule, you should have at least 8 GB of RAM available to run 8B models, 16 GB to run 16B models, and so on
-    - We recommend using the [Qwen3 family of models](https://ollama.com/library/qwen3): `qwen3:8b` if you have 8 GB of RAM, `qwen3:14b` if you have 16 GB, or `qwen3:32b` if you have 32 GB
+    - I recommend using the [Qwen3 family of models](https://ollama.com/library/qwen3): `qwen3:8b` if you have 8 GB of RAM, `qwen3:14b` if you have 16 GB, or `qwen3:32b` if you have 32 GB
 4. Run the command `ollama run <your_model>` in your terminal to download the model. When the download is complete, a chat interface will start with the selected model. Type `/bye` to exit the chat interface
 5. In the `.env` file, set `MODEL_PROVIDER` to `"ollama"` and `OLLAMA_MODEL` to your model of choice
 6. Finally, start the Ollama app in the background OR run `ollama serve` in your terminal to expose an HTTP API on localhost so you can send requests to the model via Python code
