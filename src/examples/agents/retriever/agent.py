@@ -3,6 +3,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.types import Send
 from langchain_chroma import Chroma
 from langgraph.utils.runnable import RunnableCallable
+from langchain_core.messages import SystemMessage
 
 from examples.agents.base_agent import BaseAgent
 from examples.agents.retriever.prompts import GENERATE_QUERIES_SYSTEM_PROMPT
@@ -62,7 +63,7 @@ class RetrieverAgent(BaseAgent):
             )
             generated_queries = self.llm.with_structured_output(
                 GeneratedQueries
-            ).invoke(generate_queries_prompt)
+            ).invoke([SystemMessage(content=generate_queries_prompt)])
 
             return {"search_queries": generated_queries.queries}
 

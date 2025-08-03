@@ -2,6 +2,7 @@ from typing import Literal
 from langchain_core.language_models import BaseLanguageModel
 from langgraph.graph import END, START, StateGraph
 from langgraph.utils.runnable import RunnableCallable
+from langchain_core.messages import SystemMessage
 
 from examples.agents.base_agent import BaseAgent
 from examples.agents.researcher.prompts import (
@@ -46,19 +47,12 @@ class ResearchAgent(BaseAgent):
 
         def classify_user_query(state: InputState) -> ResearchState:
             """Classify the user's query to determine the next steps."""
-            # format the chat history
-            chat_history = "\n".join(
-                [f"{msg.type.upper()}: {msg.content}" for msg in state.messages]
-            )
-            # format the prompt
-            query_classifier_prompt = self._classify_query_prompt.format(
-                chat_history=chat_history
-            )
-            # invoke the model
+            # invoke the model with system and chat history messages
             query_classification = self.llm.with_structured_output(
                 UserQueryClassification
-            ).invoke(query_classifier_prompt)
-
+            ).invoke(
+                [SystemMessage(content=self._classify_query_prompt)] + state.messages
+            )
             return {
                 "messages": state.messages,
                 "query_classification": query_classification,
@@ -80,50 +74,34 @@ class ResearchAgent(BaseAgent):
 
         def ask_for_more_info(state: ResearchState) -> ResearchState:
             """Ask the user for more information."""
-            # format the chat history
-            chat_history = "\n".join(
-                [f"{msg.type.upper()}: {msg.content}" for msg in state.messages]
-            )
-            # format the prompt
+            # format the prompt with the query classification reasoning
             more_info_prompt = self._ask_for_more_info_prompt.format(
-                reasoning=state.query_classification.reasoning,
-                chat_history=chat_history,
+                reasoning=state.query_classification.reasoning
             )
-            # invoke the model
-            more_info_response = self.llm.invoke(more_info_prompt)
-
+            # invoke the model with system and chat history messages
+            more_info_response = self.llm.invoke(
+                [SystemMessage(content=more_info_prompt)] + state.messages
+            )
+            # update the state
             return {"messages": [more_info_response]}
 
         def respond_to_user(state: ResearchState) -> ResearchState:
             """Respond to the user without conducting any research."""
-            # format the chat history
-            chat_history = "\n".join(
-                [f"{msg.type.upper()}: {msg.content}" for msg in state.messages]
+            # invoke the model with system and chat history messages
+            response_to_user = self.llm.invoke(
+                [SystemMessage(content=self._respond_to_user_prompt)] + state.messages
             )
-            # format the prompt
-            respond_to_user_prompt = self._respond_to_user_prompt.format(
-                chat_history=chat_history,
-            )
-            # invoke the model
-            response_to_user = self.llm.invoke(respond_to_user_prompt)
-
+            # update the state
             return {"messages": [response_to_user]}
 
         def create_research_plan(state: ResearchState) -> ResearchState:
             """Create a step-by-step research plan to answer the user's query."""
-            # format the chat history
-            chat_history = "\n".join(
-                [f"{msg.type.upper()}: {msg.content}" for msg in state.messages]
-            )
-            # format the prompt
-            research_plan_prompt = self._create_research_plan_prompt.format(
-                chat_history=chat_history,
-            )
-            # invoke the model
+            # invoke the model with system and chat history messages
             research_plan = self.llm.with_structured_output(ResearchPlan).invoke(
-                research_plan_prompt
+                [SystemMessage(content=self._create_research_plan_prompt)]
+                + state.messages
             )
-
+            # update the state
             return {
                 "research_steps": research_plan.steps,
                 "current_step": 0,
@@ -189,23 +167,20 @@ class ResearchAgent(BaseAgent):
                         f"{doc.page_content}\n"
                         f"</document>"
                     )
-
+            # update the state
             return {"research_results": "\n\n".join(formatted_documents)}
 
         def respond_with_research_results(state: ResearchState) -> ResearchState:
             """Respond with the research results."""
-            # format the chat history
-            chat_history = "\n".join(
-                [f"{msg.type.upper()}: {msg.content}" for msg in state.messages]
-            )
-            # format the prompt
+            # format the prompt with the research results
             respond_with_research_prompt = self._respond_with_research_prompt.format(
-                chat_history=chat_history,
-                research_results=state.research_results,
+                research_results=state.research_results
             )
-            # invoke the model
-            response_with_research = self.llm.invoke(respond_with_research_prompt)
-
+            # invoke the model with system and chat history messages
+            response_with_research = self.llm.invoke(
+                [SystemMessage(content=respond_with_research_prompt)] + state.messages
+            )
+            # update the state
             return {"messages": [response_with_research]}
 
         research_graph = StateGraph(state_schema=ResearchState, input_schema=InputState)
